@@ -1,31 +1,32 @@
 
 
-function unpack(rows, index) {
-  return rows.map(function(row) {
-    return row[index];
-  });
-}
-
 d3.json("samples.json").then(function (data) {
   console.log(data);
 
 
-  let sample_values = data.samples;
-  let otu_ids = []
-  for (i = 0; i < data.samples.length; i++) {
-    otu_ids.push(data.samples[i].otu_ids);
+  d3.selectAll("#selDataset").on("change", updatePlotly);
+
+  function updatePlotly() {
+    let dropdownMenu = d3.select("#selDataset");
+    let data_id = dropdownMenu.property("value");
+
+    let otu_ids = [];
+    let sample_values = [];
+    for (i = 0; i < data.samples.length; i++) {
+      if (data_id == data.samples[i].id) {
+        let sliced_samples = data.samples[i].sample_values.slice(0, 10);
+        let sliced_otu_ids = data.samples[i].otu_ids.slice(0, 10);
+        otu_ids.push(sliced_otu_ids);
+        sample_values.push(sliced_samples);
+
+      };
+    };
+
   };
-  // let otu_ids = unpack(data.samples, 1);
-  let otu_labels = data.samples.otu_lables;
-  let ids = data.names;
 
   console.log(otu_ids);
   console.log(ids);
 
-  // sample_values.sort(function compareFunction(firstNum, secondNum) {
-  //   return secondNum - firstNum;
-  // });
-  
   console.log(sample_values);
 
   // let trace1 = {
