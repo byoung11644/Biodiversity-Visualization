@@ -3,12 +3,26 @@
 d3.json("samples.json").then(function (data) {
   console.log(data);
 
+  let selector = d3.select("#selDataset")
+    .selectAll("option")
+    .data(data.names)
+    .enter()
+    .append("option")
+    .text(function (d) {
+      return d;
+    });
 
-  d3.selectAll("#selDataset").on("change", updatePlotly);
 
-  function updatePlotly() {
-    let dropdownMenu = d3.select("#selDataset");
-    let data_id = dropdownMenu.property("value");
+
+
+
+
+  function optionChanged() {
+    // let data_id = dropdownMenu.node().text;
+    d3.select("#selDataset")
+    .on("change", function(d) {
+      update("onchange", this.value);
+    });
 
     let otu_ids = [];
     let sample_values = [];
@@ -21,25 +35,25 @@ d3.json("samples.json").then(function (data) {
 
       };
     };
+    console.log(otu_ids);
+    console.log(ids);
+
+    console.log(sample_values);
 
   };
 
-  console.log(otu_ids);
-  console.log(ids);
+  let trace1 = {
+    x: otu_ids,
+    y: sample_values,
+    type: "bar",
+    orientation: "h"
+  };
+  let bar_data = [trace1];
+  let layout = {
 
-  console.log(sample_values);
+  };
 
-  // let trace1 = {
-  //   x: otu_ids,
-  //   y: sample_values,
-  //   type: "bar"
-  // };
-  // let bar_data = [trace1];
-  // let layout = {
-  //   orientation: "h"
-  // };
-
-  // Plotly.newplot("bar", bar_data, layout)
+  Plotly.newplot("bar", bar_data, layout)
 
 
 });
