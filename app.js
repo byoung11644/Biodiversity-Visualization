@@ -14,25 +14,25 @@ d3.json("samples.json").then(function (data) {
 
 
   let dropdown_id = data.samples[0].id;
-  let otu_ids = [];
-  let sample_values = [];
-  let otu_labels = [];
-  for (i = 0; i < 11; i++) {
-    otu_ids.push("OTU " + data.samples[0].otu_ids[i].toString());
-    sample_values.push(data.samples[0].sample_values[i]);
-    otu_labels.push(data.samples[0].otu_labels[i]);
+  let top_otu_ids = [];
+  let top_sample_values = [];
+  let top_otu_labels = [];
+  for (i = 0; i < 10; i++) {
+    top_otu_ids.push("OTU " + data.samples[0].otu_ids[i].toString());
+    top_sample_values.push(data.samples[0].sample_values[i]);
+    top_otu_labels.push(data.samples[0].otu_labels[i]);
   };
 
   console.log(dropdown_id);
-  console.log(otu_ids);
-  console.log(sample_values);
-  console.log(otu_labels);
+  console.log(top_otu_ids);
+  console.log(top_sample_values);
+  console.log(top_otu_labels);
 
   let plot_data = [{
     type: "bar",
-    x: sample_values,
-    y: otu_ids,
-    text: otu_labels,
+    x: top_sample_values,
+    y: top_otu_ids,
+    text: top_otu_labels,
     orientation: 'h',
     transforms: [{
       type: 'sort',
@@ -42,6 +42,30 @@ d3.json("samples.json").then(function (data) {
   }];
 
   Plotly.newPlot("bar", plot_data);
+
+  var bubble1 = {
+    x: data.samples[0].otu_ids,
+    y: data.samples[0].sample_values,
+    text: data.samples[0].otu_labels,
+    mode: 'markers',
+    marker: {
+      color: data.samples[0].otu_ids,
+      size: data.samples[0].sample_values
+    }
+  };
+
+  var bubble_data = [bubble1];
+
+  var bubble_layout = {
+    showlegend: false,
+    xaxis: {
+      title: {
+        text: 'OTU ID'
+      }
+    }
+  };
+
+  Plotly.newPlot('bubble', bubble_data, bubble_layout);
 
 
   d3.select("#selDataset").on("change", optionChanged);
