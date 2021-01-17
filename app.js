@@ -12,6 +12,16 @@ d3.json("samples.json").then(function (data) {
       return d;
     });
 
+  let panel_body = d3.select(".panel-body")
+    .selectAll("div")
+    .data(data.metadata[0])
+    .enter()
+    .append("div")
+    .attr("class", "panel-content")
+    .text(function (d) {
+      return d 
+    });
+
 
   let dropdown_id = data.samples[0].id;
   let top_otu_ids = [];
