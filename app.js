@@ -12,14 +12,17 @@ d3.json("samples.json").then(function (data) {
       return d;
     });
 
-  let panel_body = d3.select(".panel-body")
+  let panel_data = Object.entries(data.metadata[0]);
+
+  console.log(panel_data);
+
+  let panel_body = d3.select("#sample-metadata")
     .selectAll("div")
-    .data(data.metadata[0])
+    .data(panel_data)
     .enter()
-    .append("div")
-    .attr("class", "panel-content")
+    .append("div").attr("class", "panel-content")
     .text(function (d) {
-      return d 
+      return d;
     });
 
 
@@ -82,24 +85,7 @@ d3.json("samples.json").then(function (data) {
 
   function optionChanged() {
     let dropdown_id = d3.select("#selDataset").node().value;
-    // let dropdown_id = dropdown.value;
-    // update("onchange", this.value);
     console.log(dropdown_id);
-
-    // for (i = 0; i < data.samples.length; i++) {
-    //   if (dropdown_id == data.samples[i].id) {
-    //     let sliced_samples = data.samples[i].sample_values.slice(0, 10);
-    //     let sliced_otu_ids = data.samples[i].otu_ids.slice(0, 10);
-    //     otu_ids.push(sliced_otu_ids);
-    //     sample_values.push(sliced_samples);
-
-
-
-    //     console.log(otu_ids);
-    //     console.log(sample_values);
-
-
-
 
   };
 });
